@@ -4,21 +4,26 @@
 
 .equ SYSTICK_CSR, 0xE000E010
 .equ SYSTICK_RVR, 0xE000E014
-.equ SYSTICK_, 0xE000E018
+.equ SYSTICK_CVR, 0xE000E018
 .equ SYSTICK_R, 0xE000E01C
 
 .global systick_config
 systick_config:
-    /* Configure SYSTICK */
-    CPSIE I
-    LDR r3, =SYSTICK_CSR
-    LDR r4, [r3]
-    LDR r5, =0x7
-    ORR r4, r4, r5
-    STR r4, [r3]
 
     /* Setting reload value */
     LDR r0, =SYSTICK_RVR
-    LDR r1, =0x00F
+    LDR r1, =9000
     STR r1, [r0]
-    bx  lr
+
+    /* Clear current value Reg.  */
+    LDR     R0, =SYSTICK_CVR
+    MOVS    R1, #0
+    STR     R1, [R0]
+
+    /* Configure SYSTICK */
+    CPSIE I
+    LDR r0, =SYSTICK_CSR
+    MOV r1, #7
+    STR r1, [r0]
+
+    bx lr

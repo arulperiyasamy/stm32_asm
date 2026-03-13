@@ -16,7 +16,8 @@ Systick_Handler:
     ldr r4, [r3]
     add r4, r4, #1
     str r4, [r3] 
-
+    
+    bx lr
 /* Debuging sec. */
 //    LDR r0, =GPIOC_OP_DR
 //    LDR r1, [r0]
@@ -26,3 +27,4 @@ Systick_Handler:
 
 .L3:
     .word var
+    .align 4

@@ -18,8 +18,6 @@ var:
 .type main, %function
 
 main:
-/* Infinite loop */
-
     LDR r0, =GPIOC_OP_DR
     LDR r1, [r0]
 
@@ -27,13 +25,16 @@ toggle:
     EOR r1, r1, #(1 << LED_PIN)
     STR r1, [r0]
 
-loop:
-    LDR r0, .L3
-    LDR r1, =10000
-    CMP r1, r0
-    
-    
-    B loop 
+wait:
+    LDR r2, =var
+    LDR r3, [r2]
+    CMP r3, #1000
+    BLT wait
+
+    MOV r3, #0
+    STR r3, [r2]
+
+    B toggle
 
 .L3:
     .word var

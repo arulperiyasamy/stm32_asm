@@ -24,7 +24,7 @@
 .word 0
 .word 0
 .word Systick_Handler      /* SYSTICK_TIMER */
-.word 0
+.word Systick_Handler
 
 .section .text
 .global Reset_Handler
