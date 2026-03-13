@@ -4,6 +4,8 @@
 
 /* Symbols from linker */
 .extern _estack
+.extern bl gpio_config
+.extern bl systick_config
 .extern main
 
 .section .isr_vector,"a",%progbits
@@ -21,7 +23,7 @@
 .word 0
 .word 0
 .word 0
-.word 0      /* SYSTICK_TIMER */
+.word Systick_Handler      /* SYSTICK_TIMER */
 .word 0
 
 .section .text
@@ -29,6 +31,8 @@
 .type Reset_Handler, %function
 
 Reset_Handler:
+    bl gpio_config
+    bl systick_config
     bl main
 
 LoopForever:
