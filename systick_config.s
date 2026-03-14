@@ -26,4 +26,4 @@ systick_config:
     MOV r1, #7
     STR r1, [r0]
 
-    bx lr
+    BX lr

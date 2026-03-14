@@ -7,7 +7,6 @@
 
 .equ RCC_EN_APB2,   (RCC_BASE  + 0x18)
 .equ GPIOC_CR_HI,     (GPIOC_BASE + 0x04)
-.equ GPIOC_OP_DR,     (GPIOC_BASE + 0x0C)
 
 .equ RCC_ENIO,    (1 << 4)
 .equ LED_PIN,       13

@@ -1,5 +1,4 @@
 CC=arm-none-eabi-gcc
-OBJCOPY=arm-none-eabi-objcopy
 
 CFLAGS=-mcpu=cortex-m3 -mthumb -O0 -g -ffreestanding -nostdlib
 LDFLAGS=-T stm32f103.ld
@@ -10,8 +9,7 @@ main.elf: *.s
 	$(CC) $(CFLAGS) $(LDFLAGS) *.s -o main.elf
 
 flash: main.elf
-	openocd -f interface/stlink.cfg -f target/stm32f1x.cfg \
-	-c "program main.elf verify reset exit"
+	openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program main.elf verify reset exit"
 
 clean:
 	rm -f *.elf
