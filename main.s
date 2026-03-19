@@ -6,18 +6,23 @@
 .equ GPIOC_OP_DR,     (GPIOC_BASE + 0x0C)
 .equ LED_PIN,       13
 
-.section .bss
+.section .data
 .global var
 .align 2
 .type var, %object
 .size var, 4
 var:
+    .word 0
 
 .section .text
 .global main
 .type main, %function
 
 main:
+
+    BL gpio_config
+    BL systick_config
+
     /* Load Data Reg. value to R0 */
     LDR r0, =GPIOC_OP_DR
     LDR r1, [r0]

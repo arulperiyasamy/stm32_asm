@@ -4,6 +4,13 @@
 
 /* Symbols from linker */
 .extern _estack
+.extern _text_end
+.extern _bss_start
+.extern _bss_end
+.extern _data_start
+.extern _data_end
+
+
 .extern bl gpio_config
 .extern bl systick_config
 .extern main
@@ -31,10 +38,47 @@
 .type Reset_Handler, %function
 
 Reset_Handler:
-    bl gpio_config
-    bl systick_config
-    bl main
+
+
+
+    /*------------ Make .bss section 0 ---------*/
+    LDR r0, = _bss_start
+    LDR r1, = _bss_end
+    MOV r2, #0
+
+    /* Loop */
+    CHK_BSS_OVERLAP:
+    CMP r0, r1
+    BHS DONE_BSS_0  
+
+    STR r2, [r0]
+    ADD r0, #4
+    B CHK_BSS_OVERLAP
+
+    DONE_BSS_0:
+
+
+
+    /*------------- Copy .data section ----------*/
+    LDR r0, =_text_end
+    LDR r1, =_data_start
+    LDR r2, =_data_end
+
+    /* Loop */
+    CHK_DATA_END:
+    CMP r1, r2
+    BHS DONE_DATA_CPY
+  
+    LDR r3, [r0]
+    ADD r0, #4
+    STR r3, [r1]
+    ADD r1, #4
+    B CHK_DATA_END
+
+    DONE_DATA_CPY:
+
+
+    BL main
 
 LoopForever:
-    b LoopForever
-
+    B LoopForever
