@@ -3,7 +3,8 @@
 .thumb
 
 /* Symbols from linker */
-.extern _estack
+.extern _mstack
+.extern _pstack
 .extern _text_end
 .extern _bss_start
 .extern _bss_end
@@ -16,10 +17,10 @@
 .extern main
 
 .section .isr_vector,"a",%progbits
-.word _estack            /* Initial stack pointer */
+.word _mstack            /* Initial stack pointer */
 .word Reset_Handler      /* Reset handler */
-.word 0                  /* NMI */
-.word 0                  /* HardFault */
+.word 0                  
+.word 0                  
 .word 0
 .word 0
 .word 0
@@ -39,7 +40,7 @@
 
 Reset_Handler:
 
-
+    
 
     /*------------ Make .bss section 0 ---------*/
     LDR r0, = _bss_start
@@ -77,6 +78,21 @@ Reset_Handler:
 
     DONE_DATA_CPY:
 
+
+    BL gpio_config
+    BL systick_config
+
+
+    /* Change Stack Pounter */
+    LDR R0, =_pstack
+    MSR PSP, R0
+
+    /* Change to Program MODE */
+    MRS R0, CONTROL
+    ORR R0, R0, #3
+    MSR CONTROL, R0
+    
+    ISB 
 
     BL main
 

@@ -8,6 +8,7 @@
 
 Systick_Handler:
     /* Load and Increment var when SysTick hits */
+
     LDR r3, .L3
     LDR r4, [r3]
     ADD r4, r4, #1

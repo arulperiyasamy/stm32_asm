@@ -20,9 +20,6 @@ var:
 
 main:
 
-    BL gpio_config
-    BL systick_config
-
     /* Load Data Reg. value to R0 */
     LDR r0, =GPIOC_OP_DR
     LDR r1, [r0]
